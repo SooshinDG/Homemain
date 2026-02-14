@@ -1,4 +1,4 @@
-import { type Order } from "../types";
+import { ORDER_STATUS_LABELS, type Order, type OrderStatus } from "../types";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -13,12 +13,22 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 
 export interface OrderDetailProps {
   order: Order | null | undefined;
+  currentStatus?: OrderStatus;
+  onStatusChange?: (status: OrderStatus) => void;
 }
 
-export const OrderDetail = ({ order }: OrderDetailProps): JSX.Element => {
+const orderStatusOptions = Object.entries(ORDER_STATUS_LABELS) as [OrderStatus, string][];
+
+export const OrderDetail = ({
+  order,
+  currentStatus,
+  onStatusChange,
+}: OrderDetailProps): JSX.Element => {
   if (!order) {
     return <p className="admin-orders-empty-state">Order not found.</p>;
   }
+
+  const status = currentStatus ?? order.status;
 
   return (
     <section className="admin-order-detail" aria-label={`Order detail for ${order.id}`}>
@@ -27,7 +37,26 @@ export const OrderDetail = ({ order }: OrderDetailProps): JSX.Element => {
           <h2 className="admin-order-detail-title">Order {order.id}</h2>
           <p className="admin-order-detail-subtitle">Placed {dateFormatter.format(order.createdAt)}</p>
         </div>
-        <OrderStatusBadge status={order.status} />
+        <div className="admin-order-detail-header-actions">
+          <div className="admin-order-detail-status-control">
+            <label htmlFor={`admin-order-status-${order.id}`}>Order status</label>
+            <select
+              id={`admin-order-status-${order.id}`}
+              className="admin-order-detail-status-select"
+              value={status}
+              onChange={(event) => {
+                onStatusChange?.(event.target.value as OrderStatus);
+              }}
+            >
+              {orderStatusOptions.map(([statusValue, label]) => (
+                <option key={statusValue} value={statusValue}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <OrderStatusBadge status={status} />
+        </div>
       </header>
 
       <div className="admin-order-detail-grid">

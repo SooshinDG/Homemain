@@ -259,6 +259,46 @@
   color: #6b7280;
 }
 
+.admin-order-detail-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-order-detail-status-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-order-detail-status-control label {
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-order-detail-status-select {
+  min-width: 160px;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.875rem;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.admin-order-detail-status-select:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.admin-order-detail-state-note {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
 .admin-order-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -325,6 +365,25 @@
 
   .admin-order-detail-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-order-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-order-detail-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-order-detail-status-control {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .admin-order-detail-status-select {
+    width: 100%;
   }
 }
 
