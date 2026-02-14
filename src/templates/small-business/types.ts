@@ -1,22 +1,45 @@
-export interface HeroContent {
+export const SMALL_BUSINESS_SECTION_KEYS = [
+  "hero",
+  "about",
+  "services",
+  "gallery",
+  "contact",
+  "cta",
+] as const;
+
+export type SmallBusinessSectionKey = (typeof SMALL_BUSINESS_SECTION_KEYS)[number];
+export type HttpMethod = "get" | "post";
+
+export interface BaseSectionProps {
+  sectionId: string;
+  titleId: string;
+}
+
+export interface LinkContent {
+  label: string;
+  href: string;
+}
+
+export interface HeroSectionProps extends BaseSectionProps {
   eyebrow: string;
   title: string;
   description: string;
-  primaryCtaLabel: string;
-  primaryCtaHref: string;
-  secondaryCtaLabel: string;
-  secondaryCtaHref: string;
+  primaryCta: LinkContent;
+  secondaryCta: LinkContent;
+  highlightsAriaLabel: string;
   highlights: string[];
 }
 
-export interface AboutContent {
+export interface AboutStat {
+  label: string;
+  value: string;
+}
+
+export interface AboutSectionProps extends BaseSectionProps {
   title: string;
   description: string;
   mission: string;
-  stats: Array<{
-    label: string;
-    value: string;
-  }>;
+  stats: AboutStat[];
 }
 
 export interface ServiceItem {
@@ -25,7 +48,7 @@ export interface ServiceItem {
   bullets: string[];
 }
 
-export interface ServicesContent {
+export interface ServicesSectionProps extends BaseSectionProps {
   title: string;
   intro: string;
   items: ServiceItem[];
@@ -38,49 +61,75 @@ export interface GalleryItem {
   alt: string;
 }
 
-export interface GalleryContent {
+export interface GallerySectionProps extends BaseSectionProps {
   title: string;
   intro: string;
   items: GalleryItem[];
 }
 
-export interface ContactContent {
-  title: string;
-  intro: string;
-  labels: {
-    phone: string;
-    email: string;
-    address: string;
-    hours: string;
-  };
+export interface ContactDetailsLabels {
   phone: string;
   email: string;
   address: string;
   hours: string;
-  formHeading: string;
-  formFields: {
-    nameLabel: string;
-    emailLabel: string;
-    messageLabel: string;
-    submitLabel: string;
-    namePlaceholder: string;
-    emailPlaceholder: string;
-    messagePlaceholder: string;
-  };
 }
 
-export interface CtaContent {
+export interface ContactFormField {
+  name: string;
+  label: string;
+  placeholder: string;
+}
+
+export interface ContactFormContent {
+  heading: string;
+  action: string;
+  method: HttpMethod;
+  fields: {
+    name: ContactFormField;
+    email: ContactFormField;
+    message: ContactFormField;
+  };
+  submitLabel: string;
+}
+
+export interface ContactSectionProps extends BaseSectionProps {
+  title: string;
+  intro: string;
+  detailsLabels: ContactDetailsLabels;
+  phone: string;
+  email: string;
+  address: string;
+  hours: string;
+  form: ContactFormContent;
+}
+
+export interface CtaSectionProps extends BaseSectionProps {
   title: string;
   description: string;
-  buttonLabel: string;
-  buttonHref: string;
+  button: LinkContent;
+}
+
+export interface SmallBusinessTemplateSections {
+  hero: HeroSectionProps;
+  about: AboutSectionProps;
+  services: ServicesSectionProps;
+  gallery: GallerySectionProps;
+  contact: ContactSectionProps;
+  cta: CtaSectionProps;
+}
+
+export interface SmallBusinessTemplateLayout {
+  sectionOrder: SmallBusinessSectionKey[];
 }
 
 export interface SmallBusinessTemplateContent {
-  hero: HeroContent;
-  about: AboutContent;
-  services: ServicesContent;
-  gallery: GalleryContent;
-  contact: ContactContent;
-  cta: CtaContent;
+  layout: SmallBusinessTemplateLayout;
+  sections: SmallBusinessTemplateSections;
 }
+
+export type HeroContent = HeroSectionProps;
+export type AboutContent = AboutSectionProps;
+export type ServicesContent = ServicesSectionProps;
+export type GalleryContent = GallerySectionProps;
+export type ContactContent = ContactSectionProps;
+export type CtaContent = CtaSectionProps;
