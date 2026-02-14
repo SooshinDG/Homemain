@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { CSSProperties } from "react";
 
 export interface OrderSummaryItem {
@@ -119,12 +120,13 @@ export function OrderSummary({
   discount = 0,
   title = "Order summary",
 }: OrderSummaryProps) {
+  const titleId = useId();
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
   const total = subtotal + shippingFee + serviceFee - discount;
 
   return (
-    <aside aria-labelledby="order-summary-title" style={cardStyle}>
-      <h2 id="order-summary-title" style={titleStyle}>
+    <aside aria-labelledby={titleId} style={cardStyle}>
+      <h2 id={titleId} style={titleStyle}>
         {title}
       </h2>
       <ul style={itemListStyle}>

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { CSSProperties, FormEvent } from "react";
 
 export interface CheckoutFormProps {
@@ -86,12 +87,23 @@ export function CheckoutForm({
   submitLabel = "Complete purchase",
   onSubmit,
 }: CheckoutFormProps) {
+  const titleId = useId();
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    if (!onSubmit) {
+      event.preventDefault();
+      return;
+    }
+
+    onSubmit(event);
+  }
+
   return (
-    <section aria-labelledby="checkout-form-title" style={cardStyle}>
-      <h2 id="checkout-form-title" style={titleStyle}>
+    <section aria-labelledby={titleId} style={cardStyle}>
+      <h2 id={titleId} style={titleStyle}>
         {title}
       </h2>
-      <form style={formStyle} onSubmit={onSubmit}>
+      <form style={formStyle} onSubmit={handleSubmit}>
         <div style={sectionStyle}>
           <p style={sectionHeadingStyle}>Contact</p>
           <label style={fieldStyle}>
