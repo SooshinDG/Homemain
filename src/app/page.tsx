@@ -1,5 +1,5 @@
 import { HomeHero } from "@/features/home/components/home-hero";
-import { ProductCard } from "@/features/ecommerce/product/components";
+import { ProductCard } from "@/features/ecommerce/product/components/ProductCard";
 import { mockProducts } from "@/features/ecommerce/product/mock";
 
 export default function HomePage() {

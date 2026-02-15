@@ -63,8 +63,10 @@ export const generateContentWithOpenAI = async (
 
   const generatedAt = new Date().toISOString();
 
+  const parsedContent = parsed as unknown as ShoppingMallContentSchema;
+
   return {
-    ...(parsed as ShoppingMallContentSchema),
+    ...parsedContent,
     metadata: {
       source: "openai",
       model,
