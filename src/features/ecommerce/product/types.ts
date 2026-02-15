@@ -10,6 +10,7 @@ export interface Product {
   price: number;
   currency: string;
   imageUrl: string;
+  imageAlt?: string;
   category: string;
   createdAt?: Date;
 }
