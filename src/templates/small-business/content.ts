@@ -1,0 +1,141 @@
+import { SmallBusinessTemplateContent } from "./types";
+
+/**
+ * Centralized template content.
+ * Replace strings here to quickly customize the entire page.
+ */
+export const smallBusinessDummyContent: SmallBusinessTemplateContent = {
+  hero: {
+    eyebrow: "Trusted by local families and teams",
+    title: "Modern solutions for growing neighborhood businesses",
+    description:
+      "We help small businesses look polished online, attract new customers, and keep current clients engaged with clear, simple messaging.",
+    primaryCtaLabel: "Book a free consultation",
+    primaryCtaHref: "#contact",
+    secondaryCtaLabel: "See our services",
+    secondaryCtaHref: "#services",
+    highlights: [
+      "Fast launch in as little as 7 days",
+      "Clear pricing with no hidden fees",
+      "Friendly support from real people",
+    ],
+  },
+  about: {
+    title: "About our business",
+    description:
+      "We are a small team that partners with small businesses to build strong first impressions and lasting customer relationships.",
+    mission:
+      "Our mission is to make high-quality digital presence simple, affordable, and effective for local business owners.",
+    stats: [
+      { label: "Years serving local brands", value: "8+" },
+      { label: "Projects delivered", value: "240+" },
+      { label: "Average client rating", value: "4.9/5" },
+    ],
+  },
+  services: {
+    title: "Services",
+    intro:
+      "Choose from flexible service packages that can be tailored to your goals and timeline.",
+    items: [
+      {
+        title: "Brand Refresh",
+        description:
+          "Update your visuals and voice to stand out in a crowded local market.",
+        bullets: [
+          "Logo and color refinements",
+          "Voice and messaging guide",
+          "Social media starter kit",
+        ],
+      },
+      {
+        title: "Website Build",
+        description:
+          "Get a conversion-focused website that is easy to update and designed for growth.",
+        bullets: [
+          "Mobile-first page templates",
+          "SEO-friendly content structure",
+          "Simple edit workflow",
+        ],
+      },
+      {
+        title: "Monthly Growth Support",
+        description:
+          "Stay consistent with ongoing content, campaign support, and performance reviews.",
+        bullets: [
+          "Monthly content planning",
+          "Campaign setup and iteration",
+          "Actionable performance reporting",
+        ],
+      },
+    ],
+  },
+  gallery: {
+    title: "Gallery",
+    intro:
+      "A quick look at sample projects, branding snapshots, and client-facing experiences.",
+    items: [
+      {
+        title: "Cafe menu redesign",
+        caption: "A modern menu system that increased walk-in orders.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80",
+        alt: "Warm cafe interior with branded menu displays",
+      },
+      {
+        title: "Boutique storefront launch",
+        caption: "Launch visuals and promotional assets for grand opening week.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80",
+        alt: "Boutique storefront with window display and branding",
+      },
+      {
+        title: "Salon online booking flow",
+        caption: "A simplified service page and booking call-to-action layout.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80",
+        alt: "Salon workstation with mirror and styling tools",
+      },
+      {
+        title: "Fitness studio campaign",
+        caption: "A seasonal class campaign with local referral incentives.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80",
+        alt: "Small group fitness class in a modern studio",
+      },
+    ],
+  },
+  contact: {
+    title: "Contact",
+    intro:
+      "Tell us what you need and we will send a tailored plan with clear next steps.",
+    labels: {
+      phone: "Phone",
+      email: "Email",
+      address: "Address",
+      hours: "Hours",
+    },
+    phone: "+1 (555) 123-4567",
+    email: "hello@northstarstudio.example",
+    address: "123 Market Street, Suite 210, Springfield",
+    hours: "Mon-Fri, 9:00 AM - 6:00 PM",
+    formHeading: "Send us a message",
+    formFields: {
+      nameLabel: "Full name",
+      emailLabel: "Email address",
+      messageLabel: "How can we help?",
+      submitLabel: "Send inquiry",
+      namePlaceholder: "Jane Doe",
+      emailPlaceholder: "jane@example.com",
+      messagePlaceholder: "Tell us about your project.",
+    },
+  },
+  cta: {
+    title: "Ready to grow your business with confidence?",
+    description:
+      "Start with a free strategy call and get a practical action plan you can use right away.",
+    buttonLabel: "Schedule your call",
+    buttonHref: "#contact",
+  },
+};
+
+export default smallBusinessDummyContent;
