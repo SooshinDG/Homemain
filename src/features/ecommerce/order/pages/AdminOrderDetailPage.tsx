@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-
 import { OrderDetail } from "../components";
 import { useOrderById } from "../hooks";
-import { type OrderRepository, type OrderStatus } from "../types";
+import { type OrderRepository } from "../types";
 import "../styles/admin-orders.css";
 
 export interface AdminOrderDetailPageProps {
@@ -22,22 +20,6 @@ export const AdminOrderDetailPage = ({
     orderId,
     repository,
   });
-  const [localStatus, setLocalStatus] = useState<OrderStatus | null>(null);
-
-  useEffect(() => {
-    setLocalStatus(order?.status ?? null);
-  }, [order]);
-
-  const orderWithLocalStatus = useMemo(() => {
-    if (!order || !localStatus || order.status === localStatus) {
-      return order;
-    }
-
-    return {
-      ...order,
-      status: localStatus,
-    };
-  }, [localStatus, order]);
 
   return (
     <section className="admin-orders-page" aria-label="Admin order detail">
@@ -77,22 +59,7 @@ export const AdminOrderDetailPage = ({
         </p>
       ) : null}
 
-      {isLoading ? (
-        <p className="admin-orders-empty-state">Loading order...</p>
-      ) : (
-        <>
-          <OrderDetail
-            order={orderWithLocalStatus}
-            currentStatus={localStatus ?? undefined}
-            onStatusChange={setLocalStatus}
-          />
-          {orderWithLocalStatus ? (
-            <p className="admin-order-detail-state-note">
-              Status updates are mock-only and saved in local page state.
-            </p>
-          ) : null}
-        </>
-      )}
+      {isLoading ? <p className="admin-orders-empty-state">Loading order...</p> : <OrderDetail order={order} />}
     </section>
   );
 };
