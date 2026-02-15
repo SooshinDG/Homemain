@@ -1,61 +1,89 @@
-import type {
-  CurrencyCode,
-  SupabaseTimestampColumns,
-  Timestamped,
-} from "../types";
-
-export type CheckoutSessionId = string;
-export type CheckoutPaymentMethod = "card" | "wallet" | "bank_transfer";
-export type CheckoutStatus = "draft" | "ready" | "submitted" | "failed";
-
-export interface CheckoutAddress {
-  firstName: string;
-  lastName: string;
-  line1: string;
-  line2: string | null;
-  city: string;
-  stateOrProvince: string;
-  postalCode: string;
-  countryCode: string;
+export interface CartItem {
+  readonly id: string;
+  readonly title: string;
+  readonly price: number;
+  readonly quantity: number;
+  readonly sku?: string;
+  readonly imageUrl?: string;
 }
 
-export interface CheckoutLineItem {
-  productId: string;
-  quantity: number;
-  unitPriceCents: number;
+export interface CartState {
+  readonly items: ReadonlyArray<CartItem>;
+  readonly currency: string;
+  clearCart: () => void;
 }
 
-export interface CheckoutSession extends Timestamped {
-  id: CheckoutSessionId;
-  cartId: string;
-  currencyCode: CurrencyCode;
-  status: CheckoutStatus;
-  paymentMethod: CheckoutPaymentMethod | null;
-  shippingAddress: CheckoutAddress | null;
-  billingAddress: CheckoutAddress | null;
-  lineItems: ReadonlyArray<CheckoutLineItem>;
+export type CartSelector<T> = (state: CartState) => T;
+
+export type UseCartStore = <T>(selector: CartSelector<T>) => T;
+
+export type CheckoutStatus = "idle" | "submitting" | "success" | "error";
+
+export interface CustomerDetails {
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly email: string;
+  readonly phone?: string;
 }
 
-export interface CheckoutSubmitInput {
-  sessionId: CheckoutSessionId;
-  paymentMethod: CheckoutPaymentMethod;
+export interface ShippingAddress {
+  readonly line1: string;
+  readonly line2?: string;
+  readonly city: string;
+  readonly stateOrRegion: string;
+  readonly postalCode: string;
+  readonly country: string;
 }
 
-export interface CheckoutGateway {
-  createFromCart(cartId: string): Promise<CheckoutSession>;
-  updateShippingAddress(
-    sessionId: CheckoutSessionId,
-    address: CheckoutAddress,
-  ): Promise<CheckoutSession>;
-  submit(input: CheckoutSubmitInput): Promise<{ orderId: string }>;
+export interface CheckoutFormValues {
+  readonly customer: CustomerDetails;
+  readonly shippingAddress: ShippingAddress;
+  readonly notes?: string;
 }
 
-export interface CheckoutSessionSupabaseRow extends SupabaseTimestampColumns {
-  id: string;
-  cart_id: string;
-  currency_code: string;
-  status: CheckoutStatus;
-  payment_method: CheckoutPaymentMethod | null;
-  shipping_address: Readonly<Record<string, unknown>> | null;
-  billing_address: Readonly<Record<string, unknown>> | null;
+export interface CheckoutFormInitialValues {
+  readonly customer?: Partial<CustomerDetails>;
+  readonly shippingAddress?: Partial<ShippingAddress>;
+  readonly notes?: string;
+}
+
+export interface OrderTotals {
+  readonly subtotal: number;
+  readonly shipping: number;
+  readonly tax: number;
+  readonly grandTotal: number;
+}
+
+export interface CreateOrderInput extends CheckoutFormValues {
+  readonly id: string;
+  readonly createdAt: string;
+  readonly items: ReadonlyArray<CartItem>;
+  readonly currency: string;
+  readonly totals: OrderTotals;
+}
+
+export interface Order extends CreateOrderInput {}
+
+export interface OrderRepository {
+  createOrder(input: CreateOrderInput): Promise<Order>;
+}
+
+export interface UseCheckoutConfig {
+  readonly useCartStore: UseCartStore;
+  readonly orderRepository: OrderRepository;
+  readonly shippingCost?: number;
+  readonly taxRate?: number;
+  readonly idGenerator?: () => string;
+  readonly now?: () => Date;
+}
+
+export interface UseCheckoutResult {
+  readonly items: ReadonlyArray<CartItem>;
+  readonly currency: string;
+  readonly totals: OrderTotals;
+  readonly status: CheckoutStatus;
+  readonly latestOrder: Order | null;
+  readonly errorMessage: string | null;
+  submitOrder(values: CheckoutFormValues): Promise<Order | null>;
+  resetCheckout(): void;
 }
