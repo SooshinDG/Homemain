@@ -1,31 +1,37 @@
-import { HeroContent } from "../types";
+import type { HeroSectionProps } from "../types";
 
-interface HeroSectionProps {
-  content: HeroContent;
-}
-
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({
+  sectionId,
+  titleId,
+  eyebrow,
+  title,
+  description,
+  primaryCta,
+  secondaryCta,
+  highlightsAriaLabel,
+  highlights,
+}: HeroSectionProps) {
   return (
-    <section id="hero" className="sb-section sb-hero" aria-labelledby="hero-title">
+    <section id={sectionId} className="sb-section sb-hero" aria-labelledby={titleId}>
       <div className="sb-container">
-        <p className="sb-eyebrow">{content.eyebrow}</p>
-        <h1 id="hero-title" className="sb-title">
-          {content.title}
+        <p className="sb-eyebrow">{eyebrow}</p>
+        <h1 id={titleId} className="sb-title">
+          {title}
         </h1>
-        <p className="sb-lead">{content.description}</p>
+        <p className="sb-lead">{description}</p>
 
         <div className="sb-hero-actions">
-          <a className="sb-button sb-button-primary" href={content.primaryCtaHref}>
-            {content.primaryCtaLabel}
+          <a className="sb-button sb-button-primary" href={primaryCta.href}>
+            {primaryCta.label}
           </a>
-          <a className="sb-button sb-button-secondary" href={content.secondaryCtaHref}>
-            {content.secondaryCtaLabel}
+          <a className="sb-button sb-button-secondary" href={secondaryCta.href}>
+            {secondaryCta.label}
           </a>
         </div>
 
-        <ul className="sb-highlights" aria-label="Business highlights">
-          {content.highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
+        <ul className="sb-highlights" aria-label={highlightsAriaLabel}>
+          {highlights.map((highlight, index) => (
+            <li key={`${highlight}-${index}`}>{highlight}</li>
           ))}
         </ul>
       </div>

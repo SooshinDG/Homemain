@@ -1,69 +1,74 @@
-import { ContactContent } from "../types";
+import type { ContactSectionProps } from "../types";
 
-interface ContactSectionProps {
-  content: ContactContent;
-}
-
-export function ContactSection({ content }: ContactSectionProps) {
+export function ContactSection({
+  sectionId,
+  titleId,
+  title,
+  intro,
+  detailsLabels,
+  phone,
+  email,
+  address,
+  hours,
+  form,
+}: ContactSectionProps) {
   return (
-    <section id="contact" className="sb-section sb-contact" aria-labelledby="contact-title">
+    <section id={sectionId} className="sb-section sb-contact" aria-labelledby={titleId}>
       <div className="sb-container sb-contact-layout">
         <div>
-          <h2 id="contact-title" className="sb-section-title">
-            {content.title}
+          <h2 id={titleId} className="sb-section-title">
+            {title}
           </h2>
-          <p className="sb-section-intro">{content.intro}</p>
+          <p className="sb-section-intro">{intro}</p>
 
           <ul className="sb-contact-details">
             <li>
-              <strong>{content.labels.phone}:</strong>{" "}
-              <a href={`tel:${content.phone}`}>{content.phone}</a>
+              <strong>{detailsLabels.phone}:</strong> <a href={`tel:${phone}`}>{phone}</a>
             </li>
             <li>
-              <strong>{content.labels.email}:</strong>{" "}
-              <a href={`mailto:${content.email}`}>{content.email}</a>
+              <strong>{detailsLabels.email}:</strong> <a href={`mailto:${email}`}>{email}</a>
             </li>
             <li>
-              <strong>{content.labels.address}:</strong> {content.address}
+              <strong>{detailsLabels.address}:</strong> {address}
             </li>
             <li>
-              <strong>{content.labels.hours}:</strong> {content.hours}
+              <strong>{detailsLabels.hours}:</strong> {hours}
             </li>
           </ul>
         </div>
 
-        <form className="sb-contact-form" action="#" method="post">
-          <h3>{content.formHeading}</h3>
+        <form className="sb-contact-form" action={form.action} method={form.method}>
+          <h3>{form.heading}</h3>
 
           <label>
-            {content.formFields.nameLabel}
+            {form.fields.name.label}
             <input
               type="text"
-              name="name"
-              placeholder={content.formFields.namePlaceholder}
+              name={form.fields.name.name}
+              placeholder={form.fields.name.placeholder}
             />
           </label>
 
           <label>
-            {content.formFields.emailLabel}
+            {form.fields.email.label}
             <input
               type="email"
-              name="email"
-              placeholder={content.formFields.emailPlaceholder}
+              name={form.fields.email.name}
+              placeholder={form.fields.email.placeholder}
             />
           </label>
 
           <label>
-            {content.formFields.messageLabel}
+            {form.fields.message.label}
             <textarea
-              name="message"
+              name={form.fields.message.name}
               rows={5}
-              placeholder={content.formFields.messagePlaceholder}
+              placeholder={form.fields.message.placeholder}
             />
           </label>
 
           <button type="submit" className="sb-button sb-button-primary">
-            {content.formFields.submitLabel}
+            {form.submitLabel}
           </button>
         </form>
       </div>
