@@ -42,6 +42,8 @@ export function ProductCard({
   return (
     <article className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
       <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
+        {/* Keeping img here avoids coupling this shared feature module to Next Image. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={product.imageUrl}
           alt={product.name}

@@ -63,7 +63,11 @@ export function ProductCard({
 }: ProductCardProps) {
   return (
     <article aria-labelledby={`product-${id}`} style={cardStyle}>
-      {imageUrl ? <img src={imageUrl} alt={name} loading="lazy" style={imageStyle} /> : null}
+      {imageUrl ? (
+        // This package-level component intentionally remains framework-agnostic.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={imageUrl} alt={name} loading="lazy" style={imageStyle} />
+      ) : null}
       <div style={bodyStyle}>
         <h3 id={`product-${id}`} style={titleStyle}>
           {name}

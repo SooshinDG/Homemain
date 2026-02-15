@@ -18,6 +18,7 @@ export function GallerySection({
         <div className="sb-grid sb-grid-two">
           {items.map((item) => (
             <figure key={item.title} className="sb-gallery-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={item.imageUrl} alt={item.alt} loading="lazy" />
               <figcaption>
                 <strong>{item.title}</strong>

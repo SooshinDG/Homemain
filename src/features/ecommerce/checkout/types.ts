@@ -62,7 +62,7 @@ export interface CreateOrderInput extends CheckoutFormValues {
   readonly totals: OrderTotals;
 }
 
-export interface Order extends CreateOrderInput {}
+export type Order = CreateOrderInput;
 
 export interface OrderRepository {
   createOrder(input: CreateOrderInput): Promise<Order>;
