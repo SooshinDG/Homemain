@@ -64,6 +64,106 @@
   overflow: hidden;
 }
 
+.admin-ai-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.admin-ai-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: #334155;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.admin-ai-field input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.875rem;
+  color: #0f172a;
+}
+
+.admin-ai-field input:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: #60a5fa;
+}
+
+.admin-ai-field--full,
+.admin-ai-actions {
+  grid-column: span 2;
+}
+
+.admin-ai-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-ai-generate-button {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.admin-ai-preview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0 1rem 1rem;
+}
+
+.admin-ai-preview-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.65rem;
+  padding: 0.875rem;
+  background: #f8fafc;
+}
+
+.admin-ai-preview-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.admin-ai-preview-card p {
+  margin: 0.5rem 0 0.75rem;
+  color: #475569;
+}
+
+.admin-ai-preview-card span {
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
+.admin-ai-json-preview {
+  grid-column: span 2;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.65rem;
+  padding: 0.625rem 0.75rem;
+  background: #ffffff;
+}
+
+.admin-ai-json-preview summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #334155;
+}
+
+.admin-ai-json-preview pre {
+  margin: 0.75rem 0 0;
+  max-height: 260px;
+  overflow: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
 .admin-orders-panel-header {
   display: flex;
   justify-content: space-between;
@@ -325,6 +425,17 @@
 
   .admin-order-detail-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-ai-form,
+  .admin-ai-preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-ai-field--full,
+  .admin-ai-actions,
+  .admin-ai-json-preview {
+    grid-column: auto;
   }
 }
 
