@@ -1,4 +1,5 @@
-import { type Order, type OrderStatus } from "../types";
+import { type Order } from "../types";
+import { OrderStatusBadge } from "./OrderStatusBadge";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -10,70 +11,74 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   timeStyle: "short",
 });
 
-const statusLabels: Record<OrderStatus, string> = {
-  pending: "Pending",
-  paid: "Paid",
-  shipped: "Shipped",
-  completed: "Completed",
-};
-
 export interface OrderDetailProps {
   order: Order | null | undefined;
 }
 
 export const OrderDetail = ({ order }: OrderDetailProps): JSX.Element => {
   if (!order) {
-    return <p>Select an order to view details.</p>;
+    return <p className="admin-orders-empty-state">Order not found.</p>;
   }
 
   return (
-    <section aria-label={`Order detail for ${order.id}`}>
-      <header>
-        <h2>Order {order.id}</h2>
-        <p>Status: {statusLabels[order.status]}</p>
-        <p>Placed: {dateFormatter.format(order.createdAt)}</p>
+    <section className="admin-order-detail" aria-label={`Order detail for ${order.id}`}>
+      <header className="admin-order-detail-header">
+        <div>
+          <h2 className="admin-order-detail-title">Order {order.id}</h2>
+          <p className="admin-order-detail-subtitle">Placed {dateFormatter.format(order.createdAt)}</p>
+        </div>
+        <OrderStatusBadge status={order.status} />
       </header>
 
-      <dl>
-        <dt>Customer</dt>
-        <dd>{order.customerName}</dd>
-        <dt>Email</dt>
-        <dd>{order.email}</dd>
-        <dt>Phone</dt>
-        <dd>{order.phone}</dd>
-        <dt>Address</dt>
-        <dd>{order.address}</dd>
-      </dl>
+      <div className="admin-order-detail-grid">
+        <article className="admin-order-detail-card">
+          <h3>Customer</h3>
+          <p>{order.customerName}</p>
+          <p>{order.customerEmail}</p>
+          <p>{order.customerPhone}</p>
+          <p>{order.shippingAddress}</p>
+        </article>
 
-      <h3>Items</h3>
-      {order.items.length === 0 ? (
-        <p>No items in this order.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Unit Price</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {order.items.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
-                <td>{currencyFormatter.format(item.unitPrice)}</td>
-                <td>{currencyFormatter.format(item.quantity * item.unitPrice)}</td>
+        <article className="admin-order-detail-card">
+          <h3>Summary</h3>
+          <dl className="admin-order-detail-summary">
+            <div>
+              <dt>Items</dt>
+              <dd>{order.items.length}</dd>
+            </div>
+            <div>
+              <dt>Total</dt>
+              <dd>{currencyFormatter.format(order.totalPrice)}</dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+
+      <article className="admin-order-detail-card">
+        <h3>Items</h3>
+        <div className="admin-orders-table-wrap" role="region" aria-label="Order item table">
+          <table className="admin-orders-table admin-orders-table--compact">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Subtotal</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <p>
-        <strong>Total:</strong> {currencyFormatter.format(order.totalPrice)}
-      </p>
+            </thead>
+            <tbody>
+              {order.items.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.productName}</td>
+                  <td>{item.quantity}</td>
+                  <td>{currencyFormatter.format(item.unitPrice)}</td>
+                  <td>{currencyFormatter.format(item.quantity * item.unitPrice)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
     </section>
   );
 };

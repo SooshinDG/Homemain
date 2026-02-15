@@ -1,162 +1,198 @@
-import {
-  type Order,
-  type OrderRepository,
-  type SupabaseOrderItemRow,
-  type SupabaseOrderRow,
-  mapSupabaseRowsToOrder,
-} from "./types";
+import { type Order, type OrderRepository } from "./types";
 
-const MOCK_NETWORK_DELAY_MS = 120;
+const MOCK_REQUEST_DELAY_MS = 120;
 
-const mockOrderRows: SupabaseOrderRow[] = [
+const mockOrders: Order[] = [
   {
-    id: "ord_1001",
-    customer_name: "Ariana Park",
-    email: "ariana.park@example.com",
-    phone: "+1-555-0134",
-    address: "101 Maple St, Denver, CO 80203",
-    total_price: 238.5,
+    id: "ord_24001",
+    customerName: "Ariana Park",
+    customerEmail: "ariana.park@example.com",
+    customerPhone: "+1-555-0134",
+    shippingAddress: "101 Maple St, Denver, CO 80203",
     status: "pending",
-    created_at: "2026-02-08T10:22:00.000Z",
+    createdAt: new Date("2026-02-10T10:22:00.000Z"),
+    totalPrice: 238.5,
+    items: [
+      {
+        id: "item_24001_1",
+        productId: "prd_101",
+        productName: "Wireless Mouse",
+        quantity: 2,
+        unitPrice: 39.5,
+      },
+      {
+        id: "item_24001_2",
+        productId: "prd_205",
+        productName: "Mechanical Keyboard",
+        quantity: 1,
+        unitPrice: 159.5,
+      },
+    ],
   },
   {
-    id: "ord_1002",
-    customer_name: "Julian Rivera",
-    email: "julian.rivera@example.com",
-    phone: "+1-555-0190",
-    address: "77 Spring Ave, Austin, TX 78701",
-    total_price: 129.99,
+    id: "ord_24002",
+    customerName: "Julian Rivera",
+    customerEmail: "julian.rivera@example.com",
+    customerPhone: "+1-555-0190",
+    shippingAddress: "77 Spring Ave, Austin, TX 78701",
     status: "paid",
-    created_at: "2026-02-09T15:41:00.000Z",
+    createdAt: new Date("2026-02-10T15:41:00.000Z"),
+    totalPrice: 129.99,
+    items: [
+      {
+        id: "item_24002_1",
+        productId: "prd_501",
+        productName: "Laptop Stand",
+        quantity: 1,
+        unitPrice: 49.99,
+      },
+      {
+        id: "item_24002_2",
+        productId: "prd_518",
+        productName: "USB-C Hub",
+        quantity: 1,
+        unitPrice: 80,
+      },
+    ],
   },
   {
-    id: "ord_1003",
-    customer_name: "Mina Choi",
-    email: "mina.choi@example.com",
-    phone: "+1-555-0127",
-    address: "500 Harbor Blvd, San Diego, CA 92101",
-    total_price: 412,
+    id: "ord_24003",
+    customerName: "Mina Choi",
+    customerEmail: "mina.choi@example.com",
+    customerPhone: "+1-555-0127",
+    shippingAddress: "500 Harbor Blvd, San Diego, CA 92101",
+    status: "processing",
+    createdAt: new Date("2026-02-11T08:05:00.000Z"),
+    totalPrice: 412,
+    items: [
+      {
+        id: "item_24003_1",
+        productId: "prd_802",
+        productName: "Noise-Canceling Headphones",
+        quantity: 1,
+        unitPrice: 299,
+      },
+      {
+        id: "item_24003_2",
+        productId: "prd_315",
+        productName: "Webcam 4K",
+        quantity: 1,
+        unitPrice: 113,
+      },
+    ],
+  },
+  {
+    id: "ord_24004",
+    customerName: "Noah Bennett",
+    customerEmail: "noah.bennett@example.com",
+    customerPhone: "+1-555-0148",
+    shippingAddress: "901 Pinecrest Rd, Seattle, WA 98109",
     status: "shipped",
-    created_at: "2026-02-10T08:05:00.000Z",
+    createdAt: new Date("2026-02-11T19:30:00.000Z"),
+    totalPrice: 87.25,
+    items: [
+      {
+        id: "item_24004_1",
+        productId: "prd_119",
+        productName: "Desk Mat",
+        quantity: 1,
+        unitPrice: 22.25,
+      },
+      {
+        id: "item_24004_2",
+        productId: "prd_120",
+        productName: "Screen Cleaning Kit",
+        quantity: 1,
+        unitPrice: 15,
+      },
+      {
+        id: "item_24004_3",
+        productId: "prd_121",
+        productName: "Cable Organizer",
+        quantity: 2,
+        unitPrice: 25,
+      },
+    ],
   },
   {
-    id: "ord_1004",
-    customer_name: "Noah Bennett",
-    email: "noah.bennett@example.com",
-    phone: "+1-555-0148",
-    address: "901 Pinecrest Rd, Seattle, WA 98109",
-    total_price: 87.25,
+    id: "ord_24005",
+    customerName: "Hana Kim",
+    customerEmail: "hana.kim@example.com",
+    customerPhone: "+1-555-0181",
+    shippingAddress: "380 3rd St, Brooklyn, NY 11215",
     status: "completed",
-    created_at: "2026-02-11T19:30:00.000Z",
+    createdAt: new Date("2026-02-12T13:18:00.000Z"),
+    totalPrice: 59,
+    items: [
+      {
+        id: "item_24005_1",
+        productId: "prd_712",
+        productName: "Insulated Bottle",
+        quantity: 1,
+        unitPrice: 29,
+      },
+      {
+        id: "item_24005_2",
+        productId: "prd_730",
+        productName: "Travel Pouch",
+        quantity: 1,
+        unitPrice: 30,
+      },
+    ],
+  },
+  {
+    id: "ord_24006",
+    customerName: "Ian Morales",
+    customerEmail: "ian.morales@example.com",
+    customerPhone: "+1-555-0165",
+    shippingAddress: "901 Meadow Ln, Phoenix, AZ 85016",
+    status: "cancelled",
+    createdAt: new Date("2026-02-12T18:07:00.000Z"),
+    totalPrice: 199.99,
+    items: [
+      {
+        id: "item_24006_1",
+        productId: "prd_440",
+        productName: "Smart Light Strip",
+        quantity: 1,
+        unitPrice: 79.99,
+      },
+      {
+        id: "item_24006_2",
+        productId: "prd_441",
+        productName: "Smart Plug Set",
+        quantity: 2,
+        unitPrice: 60,
+      },
+    ],
   },
 ];
 
-const mockOrderItemRows: SupabaseOrderItemRow[] = [
-  {
-    id: "item_1001_1",
-    order_id: "ord_1001",
-    product_id: "prd_101",
-    product_name: "Wireless Mouse",
-    quantity: 2,
-    unit_price: 39.5,
-  },
-  {
-    id: "item_1001_2",
-    order_id: "ord_1001",
-    product_id: "prd_205",
-    product_name: "Mechanical Keyboard",
-    quantity: 1,
-    unit_price: 159.5,
-  },
-  {
-    id: "item_1002_1",
-    order_id: "ord_1002",
-    product_id: "prd_501",
-    product_name: "Laptop Stand",
-    quantity: 1,
-    unit_price: 49.99,
-  },
-  {
-    id: "item_1002_2",
-    order_id: "ord_1002",
-    product_id: "prd_518",
-    product_name: "USB-C Hub",
-    quantity: 1,
-    unit_price: 80,
-  },
-  {
-    id: "item_1003_1",
-    order_id: "ord_1003",
-    product_id: "prd_802",
-    product_name: "Noise-Canceling Headphones",
-    quantity: 1,
-    unit_price: 299,
-  },
-  {
-    id: "item_1003_2",
-    order_id: "ord_1003",
-    product_id: "prd_315",
-    product_name: "Webcam 4K",
-    quantity: 1,
-    unit_price: 113,
-  },
-  {
-    id: "item_1004_1",
-    order_id: "ord_1004",
-    product_id: "prd_119",
-    product_name: "Desk Mat",
-    quantity: 1,
-    unit_price: 22.25,
-  },
-  {
-    id: "item_1004_2",
-    order_id: "ord_1004",
-    product_id: "prd_120",
-    product_name: "Screen Cleaning Kit",
-    quantity: 1,
-    unit_price: 15,
-  },
-  {
-    id: "item_1004_3",
-    order_id: "ord_1004",
-    product_id: "prd_121",
-    product_name: "Cable Organizer",
-    quantity: 2,
-    unit_price: 25,
-  },
-];
-
-const wait = async (ms: number): Promise<void> => {
+const wait = async (delayMs: number): Promise<void> => {
   await new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
+    setTimeout(resolve, delayMs);
   });
 };
 
 const cloneOrder = (order: Order): Order => {
   return {
     ...order,
+    createdAt: new Date(order.createdAt.getTime()),
     items: order.items.map((item) => ({ ...item })),
-    createdAt: new Date(order.createdAt),
   };
 };
 
 const buildOrders = (): Order[] => {
-  return mockOrderRows.map((row) => {
-    const itemRows = mockOrderItemRows.filter((item) => item.order_id === row.id);
-    return mapSupabaseRowsToOrder(row, itemRows);
-  });
+  return mockOrders.map(cloneOrder);
 };
-
-export const mockOrders: Order[] = buildOrders();
 
 export const mockOrderRepository: OrderRepository = {
   async listOrders(): Promise<Order[]> {
-    await wait(MOCK_NETWORK_DELAY_MS);
-    return buildOrders().map(cloneOrder);
+    await wait(MOCK_REQUEST_DELAY_MS);
+    return buildOrders();
   },
   async getOrderById(orderId: string): Promise<Order | null> {
-    await wait(MOCK_NETWORK_DELAY_MS);
-    const order = buildOrders().find((entry) => entry.id === orderId);
-    return order ? cloneOrder(order) : null;
+    await wait(MOCK_REQUEST_DELAY_MS);
+    return buildOrders().find((order) => order.id === orderId) ?? null;
   },
 };
