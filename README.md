@@ -35,3 +35,12 @@ src/
 ```
 
 Use `features/` for user-facing product modules and `templates/` for resale catalog/domain data.
+
+## Shopping Mall Template Page
+
+New reusable shopping mall template module:
+
+- `src/templates/shopping-mall/ShoppingMallTemplatePage.tsx`
+- imports mock products from `src/features/ecommerce/product/mock.ts`
+- renders product grid through `ProductList`
+- includes a simple hero section and template-friendly styling
