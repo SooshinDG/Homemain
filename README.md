@@ -44,3 +44,11 @@ New reusable shopping mall template module:
 - imports mock products from `src/features/ecommerce/product/mock.ts`
 - renders product grid through `ProductList`
 - includes a simple hero section and template-friendly styling
+
+## Order success page
+
+Standalone order success assets are also included:
+
+- `order-success.html`
+- `order-success.css`
+- `order-success.js`
