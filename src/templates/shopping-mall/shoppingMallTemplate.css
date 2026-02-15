@@ -1,0 +1,92 @@
+.shopping-template {
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.shopping-template__hero {
+  padding: 4.5rem 1.25rem 3rem;
+  background:
+    radial-gradient(circle at top right, rgba(99, 102, 241, 0.22), transparent 48%),
+    linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+}
+
+.shopping-template__hero-content {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.shopping-template__eyebrow {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4f46e5;
+}
+
+.shopping-template__headline {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.15;
+}
+
+.shopping-template__supporting {
+  margin-top: 0.9rem;
+  margin-bottom: 1.5rem;
+  width: min(700px, 100%);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.shopping-template__primary-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 1rem;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.shopping-template__products-section {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3.5rem;
+}
+
+.shopping-template__section-header {
+  margin-bottom: 1.25rem;
+}
+
+.shopping-template__section-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.shopping-template__section-copy {
+  margin-top: 0.55rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.shopping-template__empty-state {
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+  color: #475569;
+}
