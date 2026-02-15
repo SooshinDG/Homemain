@@ -1,70 +1,16 @@
-import type { CSSProperties } from "react";
+import type { ReactNode } from "react";
 
+import { useCartStore } from "../../cart/store";
 import type { Product } from "../types";
 
-export interface ProductCardProps {
+export type ProductCardProps = {
   product: Product;
+  actionSlot?: ReactNode;
   locale?: string;
-}
-
-const cardStyle: CSSProperties = {
-  border: "1px solid #e5e7eb",
-  borderRadius: "14px",
-  backgroundColor: "#ffffff",
-  overflow: "hidden",
-  boxShadow: "0 6px 18px rgba(17, 24, 39, 0.08)",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
+  onAddToCart?: (product: Product) => void;
 };
 
-const imageStyle: CSSProperties = {
-  width: "100%",
-  aspectRatio: "4 / 3",
-  objectFit: "cover",
-  backgroundColor: "#f3f4f6",
-};
-
-const bodyStyle: CSSProperties = {
-  padding: "1rem",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.5rem",
-  height: "100%",
-};
-
-const categoryStyle: CSSProperties = {
-  margin: 0,
-  fontSize: "0.75rem",
-  fontWeight: 700,
-  color: "#475569",
-  letterSpacing: "0.05em",
-  textTransform: "uppercase",
-};
-
-const nameStyle: CSSProperties = {
-  margin: 0,
-  fontSize: "1rem",
-  fontWeight: 700,
-  color: "#0f172a",
-};
-
-const descriptionStyle: CSSProperties = {
-  margin: 0,
-  fontSize: "0.9rem",
-  lineHeight: 1.5,
-  color: "#334155",
-  flexGrow: 1,
-};
-
-const priceStyle: CSSProperties = {
-  margin: 0,
-  fontSize: "1rem",
-  fontWeight: 700,
-  color: "#111827",
-};
-
-function formatPrice(price: number, currency: string, locale?: string): string {
+const formatPrice = (price: number, currency: string, locale?: string): string => {
   try {
     return new Intl.NumberFormat(locale, {
       style: "currency",
@@ -74,22 +20,58 @@ function formatPrice(price: number, currency: string, locale?: string): string {
   } catch {
     return `${currency} ${price.toFixed(2)}`;
   }
-}
+};
 
-export function ProductCard({ product, locale }: ProductCardProps) {
+export const ProductCard = ({
+  product,
+  actionSlot,
+  locale,
+  onAddToCart,
+}: ProductCardProps) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = () => {
+    addToCart({
+      productId: String(product.id),
+      name: product.name,
+      price: product.price,
+      image: product.imageUrl,
+    });
+    onAddToCart?.(product);
+  };
+
   return (
-    <article aria-labelledby={`product-${product.id}`} style={cardStyle}>
-      <img src={product.imageUrl} alt={product.name} loading="lazy" style={imageStyle} />
-      <div style={bodyStyle}>
-        <p style={categoryStyle}>{product.category}</p>
-        <h3 id={`product-${product.id}`} style={nameStyle}>
+    <article className="group flex h-full w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
+      <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
+        <img
+          src={product.imageUrl}
+          alt={product.imageAlt ?? product.name}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <h3 className="text-sm font-semibold leading-6 text-slate-900 sm:text-base">
           {product.name}
         </h3>
-        <p style={descriptionStyle}>{product.description}</p>
-        <p style={priceStyle}>{formatPrice(product.price, product.currency, locale)}</p>
+
+        <p className="mt-2 text-base font-bold text-slate-900 sm:text-lg">
+          {formatPrice(product.price, product.currency, locale)}
+        </p>
+
+        <div className="mt-4 min-h-10">
+          {actionSlot ?? (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="h-10 w-full rounded-md bg-slate-900 px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+            >
+              Add to Cart
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );
-}
-
-export default ProductCard;
+};

@@ -8,7 +8,6 @@ import type {
 export type CartId = string;
 export type CartItemId = string;
 export type CartOwnerId = string;
-
 export interface CartItem {
   productId: string;
   name: string;
