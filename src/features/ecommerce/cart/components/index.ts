@@ -10,3 +10,5 @@ export interface CartLineItemsProps {
   onRemoveItem?: (itemId: CartItemId) => void;
   onQuantityChange?: (itemId: CartItemId, quantity: number) => void;
 }
+export { CartDrawer } from "./CartDrawer";
+export type { CartDrawerProps } from "./CartDrawer";
