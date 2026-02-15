@@ -1,44 +1,35 @@
-import type {
-  CurrencyCode,
-  PaginationInput,
-  SupabaseTimestampColumns,
-  Timestamped,
-} from "../types";
-
 export type ProductId = string;
-export type ProductSku = string;
+export type ProductCategory = string;
 
-export interface Product extends Timestamped {
+export interface Product {
   id: ProductId;
-  sku: ProductSku;
-  slug: string;
   name: string;
-  description: string | null;
-  priceCents: number;
-  currencyCode: CurrencyCode;
-  imageUrl: string | null;
-  isActive: boolean;
+  description: string;
+  price: number;
+  currency: string;
+  imageUrl: string;
+  category: ProductCategory;
+  createdAt?: Date;
+  sku?: string;
+  slug?: string;
+  isActive?: boolean;
 }
 
-export interface ProductQuery extends PaginationInput {
+export interface ProductQuery {
   query?: string;
+  category?: ProductCategory;
   isActive?: boolean;
+  limit?: number;
+  offset?: number;
 }
 
 export interface ProductRepository {
   list(input?: ProductQuery): Promise<ReadonlyArray<Product>>;
   getById(id: ProductId): Promise<Product | null>;
-  getBySlug(slug: string): Promise<Product | null>;
+  getBySlug?(slug: string): Promise<Product | null>;
 }
 
-export interface ProductSupabaseRow extends SupabaseTimestampColumns {
-  id: string;
-  sku: string;
-  slug: string;
-  name: string;
-  description: string | null;
-  price_cents: number;
-  currency_code: string;
-  image_url: string | null;
-  is_active: boolean;
+// Keep DB-facing shape explicit for future persistence integration.
+export interface ProductRecord extends Omit<Product, "createdAt"> {
+  createdAt: string;
 }
