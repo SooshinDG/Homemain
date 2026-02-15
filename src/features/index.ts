@@ -1,6 +1,7 @@
 export * from "./auth";
 export * from "./billing";
 export * from "./notifications";
+export * as ecommerce from "./ecommerce";
 
 export type { FeatureDictionary, FeatureModule } from "./contracts";
 export { FEATURE_FLAGS, type FeatureFlags } from "./feature-flags";

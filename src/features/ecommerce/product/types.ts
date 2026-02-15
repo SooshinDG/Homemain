@@ -1,7 +1,6 @@
 import type { PaginationInput, SupabaseTimestampColumns } from "../types";
 
 export type ProductId = string;
-export type ProductCategory = string;
 
 export interface Product {
   id: ProductId;
@@ -9,14 +8,15 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  image: string;
-  category: ProductCategory;
-  createdAt: Date;
+  currency: string;
+  imageUrl: string;
+  category: string;
+  createdAt?: Date;
 }
 
 export interface ProductQuery extends PaginationInput {
   query?: string;
-  category?: ProductCategory;
+  category?: string;
   isActive?: boolean;
 }
 
@@ -37,7 +37,8 @@ export interface ProductSupabaseRow extends SupabaseTimestampColumns {
   name: string;
   description: string;
   price: number;
-  image: string;
+  currency: string;
+  image_url: string;
   category: string;
   is_active: boolean;
 }
