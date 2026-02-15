@@ -1,20 +1,22 @@
-import { ServicesContent } from "../types";
+import type { ServicesSectionProps } from "../types";
 
-interface ServicesSectionProps {
-  content: ServicesContent;
-}
-
-export function ServicesSection({ content }: ServicesSectionProps) {
+export function ServicesSection({
+  sectionId,
+  titleId,
+  title,
+  intro,
+  items,
+}: ServicesSectionProps) {
   return (
-    <section id="services" className="sb-section sb-services" aria-labelledby="services-title">
+    <section id={sectionId} className="sb-section sb-services" aria-labelledby={titleId}>
       <div className="sb-container">
-        <h2 id="services-title" className="sb-section-title">
-          {content.title}
+        <h2 id={titleId} className="sb-section-title">
+          {title}
         </h2>
-        <p className="sb-section-intro">{content.intro}</p>
+        <p className="sb-section-intro">{intro}</p>
 
         <div className="sb-grid sb-grid-three">
-          {content.items.map((service) => (
+          {items.map((service) => (
             <article key={service.title} className="sb-card">
               <h3>{service.title}</h3>
               <p>{service.description}</p>

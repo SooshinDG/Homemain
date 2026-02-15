@@ -1,19 +1,15 @@
-import { CtaContent } from "../types";
+import type { CtaSectionProps } from "../types";
 
-interface CtaSectionProps {
-  content: CtaContent;
-}
-
-export function CtaSection({ content }: CtaSectionProps) {
+export function CtaSection({ sectionId, titleId, title, description, button }: CtaSectionProps) {
   return (
-    <section id="cta" className="sb-section sb-cta" aria-labelledby="cta-title">
+    <section id={sectionId} className="sb-section sb-cta" aria-labelledby={titleId}>
       <div className="sb-container sb-cta-box">
-        <h2 id="cta-title" className="sb-section-title">
-          {content.title}
+        <h2 id={titleId} className="sb-section-title">
+          {title}
         </h2>
-        <p>{content.description}</p>
-        <a className="sb-button sb-button-primary" href={content.buttonHref}>
-          {content.buttonLabel}
+        <p>{description}</p>
+        <a className="sb-button sb-button-primary" href={button.href}>
+          {button.label}
         </a>
       </div>
     </section>

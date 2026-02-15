@@ -1,20 +1,22 @@
-import { GalleryContent } from "../types";
+import type { GallerySectionProps } from "../types";
 
-interface GallerySectionProps {
-  content: GalleryContent;
-}
-
-export function GallerySection({ content }: GallerySectionProps) {
+export function GallerySection({
+  sectionId,
+  titleId,
+  title,
+  intro,
+  items,
+}: GallerySectionProps) {
   return (
-    <section id="gallery" className="sb-section sb-gallery" aria-labelledby="gallery-title">
+    <section id={sectionId} className="sb-section sb-gallery" aria-labelledby={titleId}>
       <div className="sb-container">
-        <h2 id="gallery-title" className="sb-section-title">
-          {content.title}
+        <h2 id={titleId} className="sb-section-title">
+          {title}
         </h2>
-        <p className="sb-section-intro">{content.intro}</p>
+        <p className="sb-section-intro">{intro}</p>
 
         <div className="sb-grid sb-grid-two">
-          {content.items.map((item) => (
+          {items.map((item) => (
             <figure key={item.title} className="sb-gallery-item">
               <img src={item.imageUrl} alt={item.alt} loading="lazy" />
               <figcaption>

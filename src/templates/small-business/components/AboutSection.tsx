@@ -1,21 +1,24 @@
-import { AboutContent } from "../types";
+import type { AboutSectionProps } from "../types";
 
-interface AboutSectionProps {
-  content: AboutContent;
-}
-
-export function AboutSection({ content }: AboutSectionProps) {
+export function AboutSection({
+  sectionId,
+  titleId,
+  title,
+  description,
+  mission,
+  stats,
+}: AboutSectionProps) {
   return (
-    <section id="about" className="sb-section sb-about" aria-labelledby="about-title">
+    <section id={sectionId} className="sb-section sb-about" aria-labelledby={titleId}>
       <div className="sb-container">
-        <h2 id="about-title" className="sb-section-title">
-          {content.title}
+        <h2 id={titleId} className="sb-section-title">
+          {title}
         </h2>
-        <p className="sb-section-intro">{content.description}</p>
-        <p className="sb-mission">{content.mission}</p>
+        <p className="sb-section-intro">{description}</p>
+        <p className="sb-mission">{mission}</p>
 
         <dl className="sb-stats">
-          {content.stats.map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label} className="sb-stat-card">
               <dt>{stat.label}</dt>
               <dd>{stat.value}</dd>
